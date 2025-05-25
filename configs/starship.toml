@@ -1,0 +1,56 @@
+# format = """
+# $directory\
+# $git_branch\
+# $fill\
+# $python\
+# $golang\
+# $rlang\
+# $jobs\
+# $line_break\
+# $character"""
+#
+# # Inserts a blank line between shell prompts
+add_newline = false
+
+# # Replace the '❯' symbol in the prompt with '➜'
+# [character] # The name of the module we are configuring is 'character'
+# success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+command_timeout = 1000
+
+# [fill]
+# symbol = "_"
+
+[directory]
+style = 'bold fg:white'
+truncation_length = 2
+truncation_symbol = ' 󰖳  …/'
+
+
+[directory.substitutions]
+'Documents' = '󰈙'
+
+[python]
+style = 'yellow'
+#symbol = '🐍🐍'
+# format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+pyenv_version_name = true
+pyenv_prefix = ''
+
+[golang]
+# style = 'blue'
+symbol = ' '
+
+[package]
+symbol = '󰏗 '
+
+[jobs]
+symbol = ' '
+style = 'red'
+number_threshold = 1
+format = '[$symbol]($style)'
+
+# ~/.config/starship.toml
+
+[cmd_duration]
+disabled = true
+
