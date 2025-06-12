@@ -83,7 +83,7 @@ function Install-ScoopApps {
 # -----------------------------
 function Install-WingetApps {
     $wingetPackages = @(
-        "CoreyButler.NVMforWindows",
+        # "CoreyButler.NVMforWindows",
         "Git.Git",
         "ImageMagick.ImageMagick",
         # "RProject.R",
@@ -103,10 +103,9 @@ function Install-WingetApps {
         "Fastfetch-cli.Fastfetch",
         "GitHub.GitHubDesktop",
         "Schniz.fnm",
-        "ajeetdsouza.zoxide",
         "astral-sh.uv",
         "Warp.Warp",
-        "Python.Python",
+        "Python.Python.3.13",
         "Microsoft.VisualStudioCode"
     )
 
