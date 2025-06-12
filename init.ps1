@@ -1,4 +1,3 @@
-
 # Set script to stop on errors
 $ErrorActionPreference = 'Stop'
 
@@ -49,7 +48,7 @@ function Install-Scoop {
         Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
         Invoke-RestMethod get.scoop.sh | Invoke-Expression
     } else {
-        Write-Host "Scoop already installed."
+        Write-Host "✅ Scoop already installed"
     }
 }
 
@@ -57,14 +56,26 @@ function Install-Scoop {
 # Function: Install Scoop Apps
 # -----------------------------
 function Install-ScoopApps {
-    scoop bucket add main extras
+    scoop bucket rm main
+    scoop bucket rm extras
+
+    scoop bucket add main
+    scoop bucket add extras
     scoop install `
         7zip `
         ani-cli `
         aria2 `
+        bat `
+        delta `
+        eza `
+        fd `
         fzf `
+        jq `
+        lazygit `
+        pnpm `
+        ripgrep `
         yazi `
-        main/superfile `
+        zoxide `
 }
 
 # -----------------------------
@@ -73,42 +84,27 @@ function Install-ScoopApps {
 function Install-WingetApps {
     $wingetPackages = @(
         "CoreyButler.NVMforWindows",
-        "7zip.7zip",
         "Git.Git",
         "ImageMagick.ImageMagick",
-        "RProject.R",
-        "vim.vim",
-        "Zen-Team.Zen-Browser",
+        # "RProject.R",
+        # "Zen-Team.Zen-Browser",
         "HTTPie.HTTPie",
         "nepnep.neofetch-win",
         "Neovim.Neovim",
         "GitHub.cli",
         "Nushell.Nushell",
         "wez.wezterm",
-        # "Microsoft.PowerShell",
-        "OpenJS.NodeJS.LTS",
+        # "OpenJS.NodeJS.LTS",
         "GoLang.Go",
         "Starship.Starship",
         "GnuWin32.Make",
-        # "Posit.RStudio",
         "GnuWin32.UnZip",
-        "Python.Launcher",
-        "BurntSushi.ripgrep.MSVC",
+        # "Python.Launcher",
         "Fastfetch-cli.Fastfetch",
         "GitHub.GitHubDesktop",
-        # "Gyan.FFmpeg",
-        "JernejSimoncic.Wget",
-        "JesseDuffield.lazygit",
-        "Rustlang.Rustup",
         "Schniz.fnm",
         "ajeetdsouza.zoxide",
         "astral-sh.uv",
-        # "RedHat.Podman-Desktop",
-        "jqlang.jq",
-        "junegunn.fzf",
-        "pnpm.pnpm",
-        "sharkdp.fd",
-        "sxyazi.yazi",
         "Warp.Warp",
         "Python.Python",
         "Microsoft.VisualStudioCode"
@@ -123,16 +119,13 @@ function Install-WingetApps {
 # -------------------------------
 # Function: Clone Neovim Config
 # -------------------------------
-
 function Clone-NeovimConfig {
     $configPath = "$env:LOCALAPPDATA\nvim"
     $backupPath = "$env:LOCALAPPDATA\nvim.bak"
 
     if (Test-Path $configPath) {
-        # Optional: Append timestamp to avoid overwriting old backup
         $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
         $backupPath = "$env:LOCALAPPDATA\nvim.bak-$timestamp"
-
         Write-Host "⚠️ Neovim config exists. Backing up to $backupPath..."
         Rename-Item -Path $configPath -NewName ("nvim.bak-" + $timestamp)
     }
@@ -141,16 +134,67 @@ function Clone-NeovimConfig {
     git clone https://github.com/lubasinkal/nvim $configPath
 }
 
+# -------------------------------
+# Function: Setup Development Directories
+# -------------------------------
+function Setup-DevDirectories {
+    $devDirs = @(
+        "$env:USERPROFILE\dev",
+        "$env:USERPROFILE\dev\projects",
+        "$env:USERPROFILE\dev\learning",
+        "$env:USERPROFILE\dev\tools"
+    )
+    
+    foreach ($dir in $devDirs) {
+        if (-not (Test-Path $dir)) {
+            New-Item -ItemType Directory -Path $dir | Out-Null
+            Write-Host "✅ Created directory: $dir"
+        }
+    }
+}
+
+# -------------------------------
+# Function: Configure Git
+# -------------------------------
+function Configure-Git {
+    $gitUser = git config --global user.name 2>$null
+    $gitEmail = git config --global user.email 2>$null
+    
+    if (-not $gitUser -or -not $gitEmail) {
+        Write-Host "⚠️ Git not configured. Please run the following commands manually:"
+        Write-Host "   git config --global user.name `"Your Name`""
+        Write-Host "   git config --global user.email `"your.email@example.com`""
+    } else {
+        Write-Host "✅ Git already configured for $gitUser ($gitEmail)"
+    }
+    
+    git config --global init.defaultBranch main 2>$null
+    git config --global pull.rebase false 2>$null
+    git config --global core.autocrlf true 2>$null
+}
+
+# ------------------------
+# Main Setup Function
+# ------------------------
+function Start-DevSetup {
+    Write-Host "`n==> Running development environment setup..." -ForegroundColor Cyan
+
+    Install-Scoop
+    Install-ScoopApps
+    Install-WingetApps
+    Setup-DevDirectories
+    Clone-NeovimConfig
+    Copy-ConfigFiles
+    Configure-Git
+
+    Write-Host "`n==> Setup complete!" -ForegroundColor Green
+    Write-Host "`nNext steps:"
+    Write-Host "1. Restart your terminal"
+    Write-Host "2. Configure Git if prompted above"
+    Write-Host "3. Run 'fastfetch' to test your setup"
+}
+
 # ------------------------
 # Run Setup
 # ------------------------
-Write-Host "`n==> Running development environment setup..." -ForegroundColor Cyan
-
-# Install-Scoop
-# Install-ScoopApps
-# Install-WingetApps
-# Clone-NeovimConfig
-Copy-ConfigFiles
-
-Write-Host "`n==> Setup complete!" -ForegroundColor Green
-
+Start-DevSetup
