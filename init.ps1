@@ -37,6 +37,22 @@ function Copy-ConfigFiles {
     } else {
         Write-Host "❌ Starship config not found in $sourceStarship"
     }
+   
+    # gitconfig
+    $sourcegitconfig = Join-Path $configSourceDir ".gitconfig"
+    $targetgitconfigDir = "$env:USERPROFILE"
+    $targetgitconfig = Join-Path $targetStarshipDir ".gitconfig"
+
+    if (Test-Path $sourcegitconfig) {
+        if (-Not (Test-Path $targetgitconfigDir)) {
+            New-Item -ItemType Directory -Path $targetgitconfigDir | Out-Null
+        }
+        Copy-Item $sourcegitconfig -Destination $targetStarship -Force
+        Write-Host "✅ gitconfig config copied to $targetgitconfig"
+    } else {
+        Write-Host "❌ gitconfig config not found in $sourcegitconfig"
+    }
+
 }
 
 # ------------------------
@@ -75,6 +91,7 @@ function Install-ScoopApps {
         pnpm `
         ripgrep `
         yazi `
+        zig `
         zoxide `
 }
 
