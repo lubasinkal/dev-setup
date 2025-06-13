@@ -1,0 +1,88 @@
+# This is a cleaned-up and enhanced Git configuration file.
+
+# -- User Identity --
+# The most important section: how your commits are authored.
+[user]
+	name = lubasinkal
+	email = lubasinkal@outlook.com
+
+# -- Default Behaviors --
+# Settings for initializing and pulling from repositories.
+[init]
+	# Use "main" as the default branch name for new repositories.
+	defaultBranch = main
+[pull]
+	# When pulling, create a merge commit instead of rebasing. (default)
+	# Set to `true` if you prefer a linear history.
+	rebase = false
+[push]
+	# When you push a new branch, automatically set it to track the remote branch.
+	# Saves you from typing `git push -u origin <branch>` the first time.
+	autoSetupRemote = true
+
+# -- Core Git Settings --
+# Editor, line endings, pager, and other core functionalities.
+[core]
+	# Use Visual Studio Code as the default editor for commit messages, etc.
+	# The --wait flag is important; it makes Git wait for you to close the editor.
+	editor = "C:\\Users\\Nkalolang\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code" --wait
+	
+	# Use the 'delta' tool for prettier diffs in the terminal.
+	pager = delta
+	
+	# Handle line endings automatically (recommended for Windows).
+	# Converts LF to CRLF on checkout, and CRLF to LF on commit.
+	autocrlf = true
+	
+	# Specify the path to the SSH executable (useful on Windows).
+	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+
+	# Enable the file system monitor for faster `git status` on large repos.
+	# Requires Git for Windows 2.37+
+	fsmonitor = true
+
+# -- Diffs and Merges --
+# Configure diff tools and how merge conflicts are displayed.
+[merge]
+	# Show the original, local, and remote versions in a conflict, which is more informative.
+	conflictstyle = zdiff3
+[interactive]
+	# Use delta for `git add --patch` and other interactive commands.
+	diffFilter = delta --color-only
+[delta]
+	# Use 'n' and 'N' to navigate between changed files in a diff.
+	navigate = true
+	# Use a theme optimized for dark terminals. (or set to 'light')
+	dark = true
+
+# -- Advanced Features --
+[rerere]
+	# "Reuse Recorded Resolution": remembers how you resolved a merge conflict
+	# so you don't have to resolve it again on a rebase. Highly recommended.
+	enabled = true
+[filter "lfs"]
+	# Configuration for Git Large File Storage (LFS).
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[http]
+	# Increase the buffer for large pushes over HTTP(S), e.g., for LFS.
+	postBuffer = 524288000
+[safe]
+	# Mark a parent directory as safe to trust its .git repositories.
+	# This single entry covers all subdirectories, including nvim and dev-setup.
+	directory = *
+# -- Aliases: Your Shortcuts --
+# Save time by creating short commands for common operations.
+# Use them like `git st` instead of `git status`.
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	ci = commit
+	cm = commit -m
+	unstage = restore --staged
+	
+	# A better log view: one-line graph with author and relative time
+	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
