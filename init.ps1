@@ -53,6 +53,20 @@ function Copy-ConfigFiles {
         Write-Host "❌ gitconfig config not found in $sourcegitconfig"
     }
 
+    # bashrc
+    $sourcebashrc = Join-Path $configSourceDir ".bashrc"
+    $targetbashrcDir = "$env:USERPROFILE"
+    $targetbashrc = Join-Path $targetbashrcDir ".bashrc"
+    if (Test-Path $sourcebashrc) {
+        if (-Not (Test-Path $targetbashrcDir)) {
+            New-Item -ItemType Directory -Path $targetbashrcDir | Out-Null
+        }
+        Copy-Item $sourcebashrc -Destination $targetbashrc -Force
+        Write-Host "✅ bashrc config copied to $targetbashrc"
+    } else {
+        Write-Host "❌ bashrc config not found in $sourcebashrc"
+    }
+
 }
 
 # ------------------------
