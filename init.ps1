@@ -72,11 +72,8 @@ function Install-Scoop {
 # Function: Install Scoop Apps
 # -----------------------------
 function Install-ScoopApps {
-    scoop bucket rm main
-    scoop bucket rm extras
 
-    scoop bucket add main
-    scoop bucket add extras
+    scoop update
     scoop install `
         7zip `
         ani-cli `
@@ -100,23 +97,18 @@ function Install-ScoopApps {
 # -----------------------------
 function Install-WingetApps {
     $wingetPackages = @(
-        # "CoreyButler.NVMforWindows",
         "Git.Git",
         "ImageMagick.ImageMagick",
-        # "RProject.R",
-        # "Zen-Team.Zen-Browser",
         "HTTPie.HTTPie",
         "nepnep.neofetch-win",
         "Neovim.Neovim",
         "GitHub.cli",
         "Nushell.Nushell",
         "wez.wezterm",
-        # "OpenJS.NodeJS.LTS",
         "GoLang.Go",
         "Starship.Starship",
         "GnuWin32.Make",
         "GnuWin32.UnZip",
-        # "Python.Launcher",
         "Fastfetch-cli.Fastfetch",
         "GitHub.GitHubDesktop",
         "Schniz.fnm",
@@ -156,9 +148,12 @@ function Clone-NeovimConfig {
 function Setup-DevDirectories {
     $devDirs = @(
         "$env:USERPROFILE\dev",
-        "$env:USERPROFILE\dev\projects",
-        "$env:USERPROFILE\dev\learning",
-        "$env:USERPROFILE\dev\tools"
+        "$env:USERPROFILE\dev\personal",
+        "$env:USERPROFILE\dev\work",
+        "$env:USERPROFILE\dev\open-source",
+        "$env:USERPROFILE\dev\experiments",
+        "$env:USERPROFILE\dev\tutorials",
+        "$env:USERPROFILE\dev\archives"
     )
     
     foreach ($dir in $devDirs) {
@@ -208,6 +203,8 @@ function Start-DevSetup {
     Write-Host "1. Restart your terminal"
     Write-Host "2. Configure Git if prompted above"
     Write-Host "3. Run 'fastfetch' to test your setup"
+    Write-Host "4. Configure fnm, exa, fzf, zoxide and starship script in your terminal profile (e.g., PowerShell, cmd, etc.)"
+    Write-Host "5. Enjoy your new development environment! 🎉"
 }
 
 # ------------------------
