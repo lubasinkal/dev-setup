@@ -41,13 +41,13 @@ function Copy-ConfigFiles {
     # gitconfig
     $sourcegitconfig = Join-Path $configSourceDir ".gitconfig"
     $targetgitconfigDir = "$env:USERPROFILE"
-    $targetgitconfig = Join-Path $targetStarshipDir ".gitconfig"
+    $targetgitconfig = Join-Path $targetgitconfigDir ".gitconfig"
 
     if (Test-Path $sourcegitconfig) {
         if (-Not (Test-Path $targetgitconfigDir)) {
             New-Item -ItemType Directory -Path $targetgitconfigDir | Out-Null
         }
-        Copy-Item $sourcegitconfig -Destination $targetStarship -Force
+        Copy-Item $sourcegitconfig -Destination $targetgitconfig -Force
         Write-Host "✅ gitconfig config copied to $targetgitconfig"
     } else {
         Write-Host "❌ gitconfig config not found in $sourcegitconfig"
