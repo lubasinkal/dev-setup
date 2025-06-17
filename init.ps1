@@ -111,6 +111,7 @@ function Install-ScoopApps {
 # -----------------------------
 function Install-WingetApps {
     $wingetPackages = @(
+        "CoreyButler.NVMforWindows",
         "Git.Git",
         "ImageMagick.ImageMagick",
         "HTTPie.HTTPie",
