@@ -86,7 +86,6 @@ function Install-Scoop {
 # Function: Install Scoop Apps
 # -----------------------------
 function Install-ScoopApps {
-
     scoop update
     scoop install `
         7zip `
@@ -104,33 +103,31 @@ function Install-ScoopApps {
         yazi `
         zig `
         zoxide `
+        git `
+        imagemagick `
+        neofetch `
+        neovim `
+        gh `
+        wezterm `
+        go `
+        starship `
+        make `
+        unzip `
+        fastfetch `
+        github `
+        fnm `
+        uv `
+        vscode `
+    warp-terminal `
+    nodejs
 }
-
 # -----------------------------
 # Function: Install Winget Apps
 # -----------------------------
 function Install-WingetApps {
     $wingetPackages = @(
-        "CoreyButler.NVMforWindows",
-        "Git.Git",
-        "ImageMagick.ImageMagick",
         "HTTPie.HTTPie",
-        "nepnep.neofetch-win",
-        "Neovim.Neovim",
-        "GitHub.cli",
-        "Nushell.Nushell",
-        "wez.wezterm",
-        "GoLang.Go",
-        "Starship.Starship",
-        "GnuWin32.Make",
-        "GnuWin32.UnZip",
-        "Fastfetch-cli.Fastfetch",
-        "GitHub.GitHubDesktop",
-        "Schniz.fnm",
-        "astral-sh.uv",
-        "Warp.Warp",
-        "Python.Python.3.13",
-        "Microsoft.VisualStudioCode"
+        "Nushell.Nushell"
     )
 
     foreach ($pkg in $wingetPackages) {
