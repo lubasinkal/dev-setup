@@ -114,12 +114,12 @@ function Install-ScoopApps {
         make `
         unzip `
         fastfetch `
-        github `
         fnm `
         uv `
         vscode `
     warp-terminal `
-    nodejs
+    nodejs `
+    nu
 }
 # -----------------------------
 # Function: Install Winget Apps
