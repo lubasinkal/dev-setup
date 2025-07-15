@@ -3,24 +3,25 @@
 local wezterm = require("wezterm")
 
 return {
+
 	-- Color and Appearance
 	colors = {
 		cursor_bg = "white",
 		cursor_border = "white",
 	},
-	color_scheme = "Oxocarbon Dark (Gogh)",
+	color_scheme = "Pico (base16)",
 	command_palette_rows = 10,
 	max_fps = 60,
 
 	font = wezterm.font_with_fallback({
 		{
-			family = "GeistMono Nerd Font",
+			family = "GeistMono Nerd Font Propo",
 			weight = "Medium",
 		},
 		{
-			family = "JetBrainsMono Nerd Font",
+			family = "JetBrainsMono Nerd Font Mono",
 			weight = "Medium",
-			italic = true,
+			-- italic = true,
 		},
 		"FiraCode Nerd Font",
 		"DengXian",
@@ -63,7 +64,6 @@ return {
 		{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
 		{ key = "k", mods = "CTRL|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
 		{ key = "j", mods = "CTRL|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-
 		-- Tab management
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
@@ -78,7 +78,7 @@ return {
 	-- Dim inactive panes for focus
 	inactive_pane_hsb = {
 		saturation = 0.9,
-		brightness = 0.7,
+		brightness = 0.5,
 	},
 	-- Launch menu
 	launch_menu = {
@@ -92,13 +92,13 @@ return {
 		},
 		{
 			label = "Bash",
-			args = { "bash", "-i", "-l" },
+			args = { "bash.exe", "-i", "-l" },
 		},
 	},
 
 	-- Default shell
-	default_prog = { "nu" },
-
+	default_prog = { "bash" },
+	default_domain = "local",
 	-- Always close panes without prompt (event handler)
 	wezterm.on("mux-is-process-stateful", function(_)
 		return false

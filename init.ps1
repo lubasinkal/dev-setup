@@ -95,8 +95,8 @@ function Install-ScoopApps {
         delta `
         eza `
         fd `
+        python `
         fzf `
-        jq `
         lazygit `
         pnpm `
         ripgrep `
@@ -127,7 +127,6 @@ function Install-ScoopApps {
 function Install-WingetApps {
     $wingetPackages = @(
         "HTTPie.HTTPie",
-        "Nushell.Nushell"
     )
 
     foreach ($pkg in $wingetPackages) {

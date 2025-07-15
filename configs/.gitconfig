@@ -25,7 +25,7 @@
 [core]
 	# Use Visual Studio Code as the default editor for commit messages, etc.
 	# The --wait flag is important; it makes Git wait for you to close the editor.
-	editor = "C:\\Users\\Nkalolang\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code" --wait
+	editor = "code" --wait
 	
 	# Use the 'delta' tool for prettier diffs in the terminal.
 	pager = delta
