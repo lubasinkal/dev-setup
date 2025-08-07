@@ -110,16 +110,15 @@ function Install-ScoopApps {
         gh `
         wezterm `
         go `
+        rustup `
+        zig `
         starship `
         make `
         unzip `
         fastfetch `
         fnm `
         uv `
-        vscode `
-    warp-terminal `
     nodejs `
-    nu
 }
 # -----------------------------
 # Function: Install Winget Apps
