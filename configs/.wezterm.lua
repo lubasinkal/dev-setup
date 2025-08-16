@@ -10,6 +10,14 @@ config.colors = {
 	cursor_bg = "#ffffff",
 	cursor_border = "#ffffff",
 	tab_bar = {
+		background = "#000000",
+		new_tab = {
+			bg_color = "#000000",
+			fg_color = "#ffffff",
+
+			-- The same options that were listed under the `active_tab` section above
+			-- can also be used for `new_tab`.
+		},
 		active_tab = {
 			bg_color = "#3c3c3c",
 			fg_color = "#ffffff",
@@ -27,6 +35,15 @@ config.font = wezterm.font_with_fallback({
 	"FiraCode Nerd Font",
 	"DengXian",
 })
+config.command_palette_font = wezterm.font_with_fallback({
+	{ family = "JetBrainsMono Nerd Font Mono", weight = "Medium" },
+	"SpaceMono Nerd Font",
+	"FiraCode Nerd Font",
+	"DengXian",
+})
+
+config.command_palette_bg_color = "#000000"
+config.command_palette_rows = 10
 config.font_size = 13
 config.max_fps = 120
 config.window_background_opacity = 0.92
