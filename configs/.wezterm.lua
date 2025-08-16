@@ -1,106 +1,99 @@
--- wezterm.lua: Highly customized config for wezterm with full oxocarbon colors, UI/productivity tweaks
+-- wezterm.lua: Enhanced, clean, and productive config
 
 local wezterm = require("wezterm")
 
-return {
+local config = {}
 
-	-- Color and Appearance
-	colors = {
-		cursor_bg = "white",
-		cursor_border = "white",
-	},
-	color_scheme = "Pico (base16)",
-	command_palette_rows = 10,
-	max_fps = 60,
-
-	font = wezterm.font_with_fallback({
-		{
-			family = "GeistMono Nerd Font Propo",
-			weight = "Medium",
+-- ========= Appearance =========
+config.color_scheme = "Oxocarbon Dark" -- full oxocarbon colorscheme, easier on eyes
+config.colors = {
+	cursor_bg = "#ffffff",
+	cursor_border = "#ffffff",
+	tab_bar = {
+		active_tab = {
+			bg_color = "#3c3c3c",
+			fg_color = "#ffffff",
+			intensity = "Bold",
 		},
-		{
-			family = "JetBrainsMono Nerd Font Mono",
-			weight = "Medium",
-			-- italic = true,
-		},
-		"FiraCode Nerd Font",
-		"DengXian",
-	}),
-	font_size = 14,
-	window_background_opacity = 0.9,
-	-- win32_system_backdrop = "Tabbed",
-	window_decorations = "RESIZE",
-	window_padding = {
-		left = 0,
-		right = 0,
-		top = 0,
-		bottom = 0,
-	},
-	hide_tab_bar_if_only_one_tab = true,
-	enable_tab_bar = true,
-	use_fancy_tab_bar = false,
-	automatically_reload_config = true,
-	use_resize_increments = true,
-	window_close_confirmation = "NeverPrompt",
-
-	-- Cursor
-	default_cursor_style = "BlinkingBar",
-
-	-- Scrollback
-	scrollback_lines = 5000,
-
-	-- Productivity: Key Bindings
-	keys = {
-		-- Pane splitting
-		{
-			key = "d",
-			mods = "CTRL|SHIFT",
-			action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }),
-		},
-		{ key = "d", mods = "CTRL|ALT", action = wezterm.action({ SplitVertical = { domain = "CurrentPaneDomain" } }) },
-
-		-- Pane navigation
-		{ key = "h", mods = "CTRL|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-		{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Right" }) },
-		{ key = "k", mods = "CTRL|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-		{ key = "j", mods = "CTRL|SHIFT", action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-		-- Tab management
-		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action({ CloseCurrentPane = { confirm = false } }) },
-		{ key = "q", mods = "CTRL|SHIFT", action = wezterm.action({ CloseCurrentTab = { confirm = false } }) },
-		{ key = "Tab", mods = "CTRL", action = wezterm.action({ ActivateTabRelative = 1 }) },
-		{ key = "Tab", mods = "CTRL|SHIFT", action = wezterm.action({ ActivateTabRelative = -1 }) },
-
-		-- Quick reload config
-		{ key = "r", mods = "CTRL|SHIFT", action = wezterm.action.ReloadConfiguration },
-	},
-
-	-- Dim inactive panes for focus
-	inactive_pane_hsb = {
-		saturation = 0.9,
-		brightness = 0.5,
-	},
-	-- Launch menu
-	launch_menu = {
-		{
-			label = "Powershell",
-			args = { "pwsh", "-NoProfileLoadTime", "-NoLogo" },
-		},
-		{
-			label = "Nushell",
-			args = { "nu" },
-		},
-		{
-			label = "Bash",
-			args = { "bash.exe", "-i", "-l" },
+		inactive_tab = {
+			bg_color = "#1e1e1e",
+			fg_color = "#808080",
 		},
 	},
-
-	-- Default shell
-	default_prog = { "bash" },
-	default_domain = "local",
-	-- Always close panes without prompt (event handler)
-	wezterm.on("mux-is-process-stateful", function(_)
-		return false
-	end),
 }
+config.font = wezterm.font_with_fallback({
+	{ family = "JetBrainsMono Nerd Font Mono", weight = "Medium" },
+	"SpaceMono Nerd Font",
+	"FiraCode Nerd Font",
+	"DengXian",
+})
+config.font_size = 13
+config.max_fps = 120
+config.window_background_opacity = 0.92
+config.win32_system_backdrop = "Mica"
+config.window_decorations = "RESIZE"
+config.hide_tab_bar_if_only_one_tab = false
+config.use_fancy_tab_bar = false
+config.tab_max_width = 25
+config.window_padding = { left = 2, right = 2, top = 0, bottom = 0 }
+
+-- ========= Cursor =========
+config.default_cursor_style = "BlinkingBar"
+config.animation_fps = 60
+config.cursor_blink_rate = 600 -- slower blink, less distracting
+
+-- ========= Scrollback =========
+config.scrollback_lines = 10000
+
+-- ========= Productivity =========
+-- Define leader key (like tmux) for multi-key combos
+config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1500 }
+
+config.keys = {
+	-- Pane splitting
+	{ key = "d", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "v", mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+
+	-- Pane navigation
+	{ key = "h", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Left") },
+	{ key = "l", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Right") },
+	{ key = "k", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Up") },
+	{ key = "j", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Down") },
+
+	-- Tab management
+	{ key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
+	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
+	{ key = "q", mods = "LEADER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+	{ key = "n", mods = "LEADER", action = wezterm.action.ActivateTabRelative(1) },
+	{ key = "p", mods = "LEADER", action = wezterm.action.ActivateTabRelative(-1) },
+
+	-- Workspace support (like projects)
+	{ key = "s", mods = "LEADER", action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }) },
+
+	-- Quick reload config
+	{ key = "r", mods = "LEADER", action = wezterm.action.ReloadConfiguration },
+}
+
+-- ========= Behavior =========
+config.automatically_reload_config = true
+config.use_resize_increments = true
+config.window_close_confirmation = "NeverPrompt"
+config.inactive_pane_hsb = { saturation = 0.9, brightness = 0.5 }
+
+-- ========= Launch Menu =========
+config.launch_menu = {
+	{ label = "Powershell", args = { "pwsh", "-NoLogo" } },
+	{ label = "Nushell", args = { "nu" } },
+	{ label = "Bash", args = { "bash.exe", "-i", "-l" } },
+}
+
+-- ========= Default shell =========
+config.default_prog = { "bash" }
+config.default_domain = "local"
+
+-- No prompts on closing panes
+wezterm.on("mux-is-process-stateful", function(_)
+	return false
+end)
+
+return config
