@@ -35,13 +35,6 @@ config.font = wezterm.font_with_fallback({
 	"FiraCode Nerd Font",
 	"DengXian",
 })
-config.command_palette_font = wezterm.font_with_fallback({
-	{ family = "JetBrainsMono Nerd Font Mono", weight = "Medium" },
-	"SpaceMono Nerd Font",
-	"FiraCode Nerd Font",
-	"DengXian",
-})
-
 config.command_palette_bg_color = "#000000"
 config.command_palette_rows = 10
 config.font_size = 13
