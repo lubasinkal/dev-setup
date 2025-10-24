@@ -103,7 +103,6 @@ function Install-ScoopApps {
         yazi `
         zig `
         zoxide `
-        git `
         imagemagick `
         neofetch `
         neovim `
@@ -126,6 +125,7 @@ function Install-ScoopApps {
 function Install-WingetApps {
     $wingetPackages = @(
         "HTTPie.HTTPie",
+        "Git.Git",
     )
 
     foreach ($pkg in $wingetPackages) {

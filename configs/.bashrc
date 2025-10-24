@@ -64,5 +64,5 @@ function y() {
 	rm -f -- "$tmp"
 }
 export YAZI_CONFIG_HOME=~/.config/yazi
-eval "$(zoxide init bash)"
 eval "$(fnm env --use-on-cd --shell bash)"
+eval "$(zoxide init bash)"

@@ -1,88 +1,166 @@
-# This is a cleaned-up and enhanced Git configuration file.
+# ~/.gitconfig - Enhanced Git Configuration
 
-# -- User Identity --
-# The most important section: how your commits are authored.
+# ================
+#  User Identity
+# ================
 [user]
-	name = lubasinkal
-	email = lubasinkal@outlook.com
+    name = lubasinkal
+    email = lubasinkal@outlook.com
+    # Sign commits with GPG (uncomment if you have a GPG key)
+    # signingKey = YOUR_KEY_ID
 
-# -- Default Behaviors --
-# Settings for initializing and pulling from repositories.
-[init]
-	# Use "main" as the default branch name for new repositories.
-	defaultBranch = main
-[pull]
-	# When pulling, create a merge commit instead of rebasing. (default)
-	# Set to `true` if you prefer a linear history.
-	rebase = false
-[push]
-	# When you push a new branch, automatically set it to track the remote branch.
-	# Saves you from typing `git push -u origin <branch>` the first time.
-	autoSetupRemote = true
-
-# -- Core Git Settings --
-# Editor, line endings, pager, and other core functionalities.
+# ================
+#  Core Settings
+# ================
 [core]
-	# Use Visual Studio Code as the default editor for commit messages, etc.
-	# The --wait flag is important; it makes Git wait for you to close the editor.
-	editor = "code" --wait
-	
-	# Use the 'delta' tool for prettier diffs in the terminal.
-	pager = delta
-	
-	# Handle line endings automatically (recommended for Windows).
-	# Converts LF to CRLF on checkout, and CRLF to LF on commit.
-	autocrlf = true
-	
-	# Specify the path to the SSH executable (useful on Windows).
-	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+    editor = code --wait
+    pager = delta
+    autocrlf = true
+    sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+    fsmonitor = true
+    # Exclude patterns (like .DS_Store)
+    excludesfile = ~/.gitignore_global
 
-	# Enable the file system monitor for faster `git status` on large repos.
-	# Requires Git for Windows 2.37+
-	fsmonitor = true
+# ================
+#  UI Enhancements
+# ================
+[color]
+    ui = auto
+    branch = auto
+    diff = auto
+    interactive = auto
+    status = auto
 
-# -- Diffs and Merges --
-# Configure diff tools and how merge conflicts are displayed.
-[merge]
-	# Show the original, local, and remote versions in a conflict, which is more informative.
-	conflictstyle = zdiff3
-[interactive]
-	# Use delta for `git add --patch` and other interactive commands.
-	diffFilter = delta --color-only
 [delta]
-	# Use 'n' and 'N' to navigate between changed files in a diff.
-	navigate = true
-	# Use a theme optimized for dark terminals. (or set to 'light')
-	dark = true
+    navigate = true
+    line-numbers = true
+    side-by-side = true
+    dark = true
+    # Custom syntax themes (requires delta 0.12+)
+    # features = unobtrusive-line-numbers decorations
+    # decorations = commit-decoration file-decoration
 
-# -- Advanced Features --
-[rerere]
-	# "Reuse Recorded Resolution": remembers how you resolved a merge conflict
-	# so you don't have to resolve it again on a rebase. Highly recommended.
-	enabled = true
-[filter "lfs"]
-	# Configuration for Git Large File Storage (LFS).
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-[http]
-	# Increase the buffer for large pushes over HTTP(S), e.g., for LFS.
-	postBuffer = 524288000
-[safe]
-	# Mark a parent directory as safe to trust its .git repositories.
-	# This single entry covers all subdirectories, including nvim and dev-setup.
-	directory = *
-# -- Aliases: Your Shortcuts --
-# Save time by creating short commands for common operations.
-# Use them like `git st` instead of `git status`.
+[interactive]
+    diffFilter = delta --color-only
+
+# ================
+#  Branch & Merge
+# ================
+[init]
+    defaultBranch = main
+
+[pull]
+    ff = only  # Prefer fast-forward merges when possible
+    rebase = merges  # Rebase local commits but preserve merge commits
+
+[push]
+    autoSetupRemote = true
+    default = current  # Push current branch by default
+
+[merge]
+    conflictstyle = zdiff3
+    tool = vscode
+    stat = true
+
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+
+[rebase]
+    autoStash = true  # Automatically stash changes before rebasing
+    autoSquash = true  # Automatically squash fixup commits
+
+# ================
+#  Aliases (Power User)
+# ================
 [alias]
-	st = status
+    # Basic shortcuts
+	st = status -sb
 	co = checkout
 	br = branch
-	ci = commit
+    ci = commit
 	cm = commit -m
-	unstage = restore --staged
-	
-	# A better log view: one-line graph with author and relative time
-	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+    amend = commit --amend --no-edit
+    unstage = restore --staged
+    discard = checkout --
+    
+    # Enhanced logging
+    lg = log --graph --pretty=format:'%C(yellow)%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	ll = log --oneline --decorate
+    hist = log --pretty=format:'%C(yellow)%h%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --topo-order
+	last = log -1 HEAD --stat
+    
+    # Branch operations
+    bclean = "!f() { git branch --merged ${1-main} | grep -v \" ${1-main}$\" | xargs -r git branch -d; }; f"
+    bsync = "!f() { git fetch origin ${1-main}:${1-main} --update-head-ok; }; f"
+    
+    # Working with remotes
+	up = pull --rebase
+    sync = !git pull --rebase && git push
+    publish = !git push -u origin $(git branch --show-current)
+    unpublish = !git push origin :$(git branch --show-current)
+    
+    # Diff enhancements
+    d = diff --color-words
+    dc = diff --cached
+    dw = diff --word-diff
+    ds = diff --stat
+    
+    # Stash shortcuts
+    sl = stash list --pretty=format:'%C(yellow)%gd%Creset %C(blue)(%cr)%Creset %s'
+    sa = stash apply
+    sp = stash pop
+    
+    # Maintenance
+    cleanup = "!git gc --prune=now --aggressive"
+    fixup = "!f() { git commit --fixup=$1 && git rebase -i --autosquash $1~; }; f"
+    
+    # Advanced
+    reword = "!f() { git commit --amend --message=\"$1\"; }; f"
+    standup = !git log --since yesterday --oneline --author=\"$(git config user.email)\" --color
+    whois = "!f() { git log -i -1 --pretty=\"format:%an <%ae>%n%ad%n%s\" --author=\"$1\"; }; f"
+
+# ================
+#  Credentials
+# ================
+[credential]
+    # helper = manager
+    # For Linux/Mac:
+    # helper = cache --timeout=3600
+    # For Windows:
+    helper = wincred
+
+# ================
+#  Miscellaneous
+# ================
+[rerere]
+    enabled = true
+    autoUpdate = true
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[http]
+    postBuffer = 524288000
+    # For faster clones in some cases
+    lowSpeedLimit = 0
+    lowSpeedTime = 999999
+	sslVerify = false
+
+[grep]
+    lineNumber = true
+    extendRegexp = true
+
+[commit]
+    template = ~/.gitmessage.txt
+    verbose = true
+
+[tag]
+    forceSignAnnotated = true
+
+[blame]
+    date = short
+[credential "helperselector"]
+	selected = wincred

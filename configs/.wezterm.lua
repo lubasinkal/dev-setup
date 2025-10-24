@@ -30,17 +30,14 @@ config.colors = {
 	},
 }
 config.font = wezterm.font_with_fallback({
-	{ family = "JetBrainsMono Nerd Font Mono", weight = "Medium" },
-	"SpaceMono Nerd Font",
+	{ family = "SpaceMono Nerd Font", weight = "Medium" },
 	"FiraCode Nerd Font",
-	"DengXian",
 })
 config.command_palette_bg_color = "#000000"
 config.command_palette_rows = 10
-config.font_size = 13
-config.max_fps = 120
-config.window_background_opacity = 0.92
-config.win32_system_backdrop = "Mica"
+config.font_size = 14
+config.window_background_opacity = 0.85
+-- config.win32_system_backdrop = "Acrylic"
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = false
 config.use_fancy_tab_bar = false
@@ -49,40 +46,6 @@ config.window_padding = { left = 2, right = 2, top = 0, bottom = 0 }
 
 -- ========= Cursor =========
 config.default_cursor_style = "BlinkingBar"
-config.animation_fps = 60
-config.cursor_blink_rate = 600 -- slower blink, less distracting
-
--- ========= Scrollback =========
-config.scrollback_lines = 10000
-
--- ========= Productivity =========
--- Define leader key (like tmux) for multi-key combos
-config.leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1500 }
-
-config.keys = {
-	-- Pane splitting
-	{ key = "d", mods = "LEADER", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-	{ key = "v", mods = "LEADER", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
-
-	-- Pane navigation
-	{ key = "h", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Left") },
-	{ key = "l", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Right") },
-	{ key = "k", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Up") },
-	{ key = "j", mods = "LEADER", action = wezterm.action.ActivatePaneDirection("Down") },
-
-	-- Tab management
-	{ key = "c", mods = "LEADER", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
-	{ key = "x", mods = "LEADER", action = wezterm.action.CloseCurrentPane({ confirm = false }) },
-	{ key = "q", mods = "LEADER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-	{ key = "n", mods = "LEADER", action = wezterm.action.ActivateTabRelative(1) },
-	{ key = "p", mods = "LEADER", action = wezterm.action.ActivateTabRelative(-1) },
-
-	-- Workspace support (like projects)
-	{ key = "s", mods = "LEADER", action = wezterm.action.ShowLauncherArgs({ flags = "WORKSPACES" }) },
-
-	-- Quick reload config
-	{ key = "r", mods = "LEADER", action = wezterm.action.ReloadConfiguration },
-}
 
 -- ========= Behavior =========
 config.automatically_reload_config = true
@@ -95,6 +58,30 @@ config.launch_menu = {
 	{ label = "Powershell", args = { "pwsh", "-NoLogo" } },
 	{ label = "Nushell", args = { "nu" } },
 	{ label = "Bash", args = { "bash.exe", "-i", "-l" } },
+}
+
+local act = wezterm.action
+
+config.keys = {
+	-- Pane splitting
+	{ key = "d", mods = "ALT", action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+	{ key = "v", mods = "ALT", action = act.SplitVertical({ domain = "CurrentPaneDomain" }) },
+
+	-- Pane navigation
+	{ key = "h", mods = "ALT", action = act.ActivatePaneDirection("Left") },
+	{ key = "l", mods = "ALT", action = act.ActivatePaneDirection("Right") },
+	{ key = "k", mods = "ALT", action = act.ActivatePaneDirection("Up") },
+	{ key = "j", mods = "ALT", action = act.ActivatePaneDirection("Down") },
+
+	-- Tab management
+	{ key = "c", mods = "ALT", action = act.SpawnTab("CurrentPaneDomain") },
+	{ key = "x", mods = "ALT", action = act.CloseCurrentPane({ confirm = false }) },
+	{ key = "q", mods = "ALT", action = act.CloseCurrentTab({ confirm = false }) },
+	{ key = "n", mods = "ALT", action = act.ActivateTabRelative(1) },
+	{ key = "p", mods = "ALT", action = act.ActivateTabRelative(-1) },
+
+	-- Reload config
+	{ key = "r", mods = "ALT", action = act.ReloadConfiguration },
 }
 
 -- ========= Default shell =========
