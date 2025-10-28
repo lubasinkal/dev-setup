@@ -5,7 +5,7 @@ local wezterm = require("wezterm")
 local config = {}
 
 -- ========= Appearance =========
-config.color_scheme = "Oxocarbon Dark" -- full oxocarbon colorscheme, easier on eyes
+config.color_scheme = "Bright (base16)"
 config.colors = {
 	cursor_bg = "#ffffff",
 	cursor_border = "#ffffff",
