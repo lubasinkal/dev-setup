@@ -326,7 +326,6 @@ function Start-DevSetup {
     Install-WingetApps
     Setup-DevDirectories
     Setup-PowerShellProfile
-    Setup-EnvironmentVariables
     Clone-NeovimConfig
     Copy-ConfigFiles
     Configure-Git
