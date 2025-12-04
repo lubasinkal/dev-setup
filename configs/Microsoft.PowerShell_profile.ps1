@@ -180,18 +180,23 @@ function sysinfo {
 
 # Starship prompt
 if (Get-Command starship -ErrorAction SilentlyContinue) {
-    Invoke-Expression (&starship init powershell)
+   function Invoke-Starship-TransientFunction {
+  &starship module character
+}
+
+Invoke-Expression (&starship init powershell)
+
+Enable-TransientPrompt
 }
 
 # fnm (Fast Node Manager)
 if (Get-Command fnm -ErrorAction SilentlyContinue) {
-    Invoke-Expression (&fnm env --use-on-cd --shell powershell)
+    fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
 }
 
 # zoxide (smart cd)
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
-    Invoke-Expression (&zoxide init powershell)
-}
+    Invoke-Expression (& { (zoxide init powershell | Out-String) })}
 
 # ================
 #  Welcome Message
