@@ -1,14 +1,13 @@
-# ~/.gitconfig - Enhanced Git Configuration
+# ~/.gitconfig.template - Git Configuration Template
+# Copy this file to ~/.gitconfig and replace the placeholder values
 
 # ================
 #  User Identity
 # ================
 [user]
-    # TODO: Replace with your actual name and email
-    # Run: git config --global user.name "Your Name"
-    # Run: git config --global user.email "your.email@example.com"
-    name = lubasinkal
-    email = lubasinkal@outlook.com
+    # Replace with your actual name and email
+    name = Your Name
+    email = your.email@example.com
     # Sign commits with GPG (uncomment if you have a GPG key)
     # signingKey = YOUR_KEY_ID
 
