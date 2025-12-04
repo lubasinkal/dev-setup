@@ -11,7 +11,6 @@ $ErrorActionPreference = 'Stop'
 # ================
 $env:EDITOR = 'nvim'
 $env:GIT_EDITOR = 'code --wait'
-$env:BROWSER = 'chrome'
 
 # Development paths
 $env:DEV_ROOT = Join-Path $env:USERPROFILE 'dev'
@@ -23,47 +22,19 @@ $env:STARSHIP_CONFIG = Join-Path $env:USERPROFILE '.config\starship\starship.tom
 $env:YAZI_CONFIG_HOME = Join-Path $env:USERPROFILE '.config\yazi'
 
 # ================
-#  PATH Extensions
-# ================
-# Add common development tools to PATH
-$pathsToAdd = @(
-    'C:\Program Files\Neovim\bin',
-    'C:\Program Files\Git\bin',
-    'C:\Program Files\GitHub CLI\bin',
-    'C:\Users\*\scoop\shims',
-    'C:\Users\*\fnm',
-    'C:\Program Files\Go\bin',
-    'C:\Users\*\go\bin',
-    'C:\Users\*\cargo\bin',
-    'C:\Program Files\Python\Python*\Scripts',
-    'C:\Program Files\Python\Python*',
-    'C:\Program Files\nodejs',
-    'C:\Users\*\AppData\Local\pnpm',
-    'C:\Users\*\AppData\Roaming\npm'
-)
-
-foreach ($path in $pathsToAdd) {
-    $resolvedPaths = Resolve-Path $path -ErrorAction SilentlyContinue
-    foreach ($resolvedPath in $resolvedPaths) {
-        if ($resolvedPath.Path -notin $env:PATH.Split(';')) {
-            $env:PATH += ";$($resolvedPath.Path)"
-        }
-    }
-}
-
-# ================
 #  Aliases
 # ================
-# Enhanced ls replacements (eza must be installed)
-Set-Alias -Name ls -Value "eza --icons"
-Set-Alias -Name ll -Value "eza -a -l -F --icons --group-directories-first --header"
-Set-Alias -Name la -Value "eza -A --icons --group-directories-first --header"
-Set-Alias -Name l -Value "eza -F --icons --group-directories-first --header"
-Set-Alias -Name lt -Value "eza -T --icons --group-directories-first --header"
-Set-Alias -Name lg -Value "eza --git --icons --group-directories-first --header"
-# Development aliases
-Set-Alias -Name c -Value clear
-function reload { . $PROFILE }
+## Enhanced Directory Functions (eza)
+function ls { eza $args --icons }
+function ll { eza $args -a -l -F --icons --group-directories-first --header }
+function la { eza $args -A --icons --group-directories-first --header }
+function l { eza $args -F --icons --group-directories-first --header }
+function lt { eza $args -T --icons --group-directories-first --header }
+function lg { eza $args --git --icons --group-directories-first --header }
+
+## Development Functions
+function c { clear }
+function reload { . $PROFILE }function reload { . $PROFILE }
 # Git aliases (enhanced - defined as functions for proper argument passing)
 # Use $args to pass all arguments received by the function to the underlying command.
 
@@ -82,8 +53,8 @@ function grs { git restore --staged $args }
 function gr { git restore $args }# Utility aliases
 # Utility aliases (assuming rg, fd, bat, and btop are installed)
 function grep { rg $args --color always } # Kept as function
-Set-Alias -Name find -Value fd
-Set-Alias -Name cat -Value bat
+function find { fd $args }
+function cat { bat $args }
 function ps { Get-Process $args } # Converted to function for argument passing# ================
 #  Functions
 # ================
@@ -198,10 +169,4 @@ if (Get-Command fnm -ErrorAction SilentlyContinue) {
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })}
 
-# ================
-#  Welcome Message
-# ================
-Write-Host "🚀 PowerShell Development Environment Loaded" -ForegroundColor Green
-Write-Host "Type 'sysinfo' for system information" -ForegroundColor Gray
-Write-Host "Type 'dev <dir>' to navigate to dev directories" -ForegroundColor Gray
-Write-Host "Type 'proj <name>' to search for projects" -ForegroundColor Gray
+
