@@ -5,7 +5,7 @@ local wezterm = require("wezterm")
 local config = {}
 
 -- ========= Appearance =========
-config.color_scheme = "Bright (base16)"
+config.color_scheme = "Oxocarbon"
 config.colors = {
 	cursor_bg = "#ffffff",
 	cursor_border = "#ffffff",
@@ -36,7 +36,7 @@ config.font = wezterm.font_with_fallback({
 config.command_palette_bg_color = "#000000"
 config.command_palette_rows = 10
 config.font_size = 14
-config.window_background_opacity = 0.85
+config.window_background_opacity = 0.75
 -- config.win32_system_backdrop = "Acrylic"
 config.window_decorations = "RESIZE"
 config.hide_tab_bar_if_only_one_tab = false
@@ -57,7 +57,7 @@ config.inactive_pane_hsb = { saturation = 0.9, brightness = 0.5 }
 config.launch_menu = {
 	{ label = "Powershell", args = { "pwsh", "-NoLogo" } },
 	{ label = "Nushell", args = { "nu" } },
-	{ label = "Bash", args = { "bash.exe", "-i", "-l" } },
+	{ label = "Bash", args = { "C:/Program Files/Git/bin/bash.exe", "-i", "-l" } },
 }
 
 local act = wezterm.action
@@ -85,7 +85,7 @@ config.keys = {
 }
 
 -- ========= Default shell =========
-config.default_prog = { "bash" }
+config.default_prog = { "C:/Program Files/Git/bin/bash.exe" }
 config.default_domain = "local"
 
 -- No prompts on closing panes
