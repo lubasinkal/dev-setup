@@ -1,40 +1,23 @@
-format = """
-$username\
-$hostname\
-$directory\
-$git_branch\
-$git_state\
-$git_status\
-$line_break\
-$python\
-$character"""
+format = "$directory$git_branch$git_status$character"
 
 [directory]
 style = "blue"
+truncate_to_repo = false
 
 [character]
-success_symbol = "[ɸ](purple)"
-error_symbol = "[ɸ](red)"
-vimcmd_symbol = "[ɸ](green)"
+success_symbol = "[❯](purple)"
+error_symbol = "[❯](red)"
 
 [git_branch]
-format = "[$branch]($style)"
+format = "[$branch]($style) "
 style = "bright-black"
 
 [git_status]
-format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)"
-style = "cyan"
-conflicted = "​"
-untracked = "​"
-modified = "​"
-staged = "​"
-renamed = "​"
-deleted = "​"
-stashed = "≡"
-
-[git_state]
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
-style = "bright-black"
+format = "[$modified$staged$untracked]($style) "
+style = "yellow"
+modified = "*"
+staged = "+"
+untracked = "?"
 
 [python]
 format = "[$virtualenv]($style) "
