@@ -55,8 +55,8 @@ foreach ($path in $pathsToAdd) {
 #  Aliases
 # ================
 # Enhanced ls replacements
-Set-Alias -Name ls -Value eza
-Set-Alias -Name ll -Value { eza -alF --icons --group-directories-first --header }
+Set-Alias -Name ls -Value { eza --icons }
+Set-Alias -Name ll -Value { eza -a -l -F --icons --group-directories-first --header }
 Set-Alias -Name la -Value { eza -A --icons --group-directories-first --header }
 Set-Alias -Name l -Value { eza -F --icons --group-directories-first --header }
 Set-Alias -Name lt -Value { eza -T --icons --group-directories-first --header }
@@ -158,7 +158,7 @@ function y {
 function proj {
     param([string]$ProjectName)
     $searchDirs = @($env:PERSONAL_DEV, $env:WORK_DEV, $env:DEV_ROOT)
-    
+
     foreach ($dir in $searchDirs) {
         if (Test-Path $dir) {
             $found = Get-ChildItem -Path $dir -Directory -Recurse | Where-Object { $_.Name -like "*$ProjectName*" } | Select-Object -First 1

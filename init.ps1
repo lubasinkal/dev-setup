@@ -272,7 +272,7 @@ function Setup-EnvironmentVariables {
         $envTemplate = Join-Path $PSScriptRoot ".env.template"
         $envFile = Join-Path $PSScriptRoot ".env"
         
-        if (Test-Path $envTemplate -and -not (Test-Path $envFile)) {
+        if ((Test-Path $envTemplate) -and (-not (Test-Path $envFile))) {
             Copy-Item $envTemplate $envFile
             Write-Host "✅ Environment template copied to: $envFile"
             Write-Host "⚠️ Please customize the .env file with your actual values" -ForegroundColor Yellow
