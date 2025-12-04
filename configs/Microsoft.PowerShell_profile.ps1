@@ -55,7 +55,6 @@ foreach ($path in $pathsToAdd) {
 #  Aliases
 # ================
 # Enhanced ls replacements
-Set-Alias -Name ls -Value { eza --icons }
 Set-Alias -Name ll -Value { eza -a -l -F --icons --group-directories-first --header }
 Set-Alias -Name la -Value { eza -A --icons --group-directories-first --header }
 Set-Alias -Name l -Value { eza -F --icons --group-directories-first --header }
