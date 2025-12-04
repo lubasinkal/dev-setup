@@ -54,45 +54,37 @@ foreach ($path in $pathsToAdd) {
 # ================
 #  Aliases
 # ================
-# Enhanced ls replacements
-Set-Alias -Name ll -Value { eza -a -l -F --icons --group-directories-first --header }
-Set-Alias -Name la -Value { eza -A --icons --group-directories-first --header }
-Set-Alias -Name l -Value { eza -F --icons --group-directories-first --header }
-Set-Alias -Name lt -Value { eza -T --icons --group-directories-first --header }
-Set-Alias -Name lg -Value { eza --git --icons --group-directories-first --header }
-
+# Enhanced ls replacements (eza must be installed)
+Set-Alias -Name ls -Value "eza --icons"
+Set-Alias -Name ll -Value "eza -a -l -F --icons --group-directories-first --header"
+Set-Alias -Name la -Value "eza -A --icons --group-directories-first --header"
+Set-Alias -Name l -Value "eza -F --icons --group-directories-first --header"
+Set-Alias -Name lt -Value "eza -T --icons --group-directories-first --header"
+Set-Alias -Name lg -Value "eza --git --icons --group-directories-first --header"
 # Development aliases
 Set-Alias -Name c -Value clear
-Set-Alias -Name reload -Value { . $PROFILE }
-Set-Alias -Name vim -Value nvim
-Set-Alias -Name vi -Value nvim
-Set-Alias -Name k -Value kubectl
-Set-Alias -Name d -Value docker
-Set-Alias -Name dc -Value docker-compose
+function reload { . $PROFILE }
+# Git aliases (enhanced - defined as functions for proper argument passing)
+# Use $args to pass all arguments received by the function to the underlying command.
 
-# Git aliases (enhanced)
-Set-Alias -Name gst -Value { git status -sb }
-Set-Alias -Name gco -Value { git checkout }
-Set-Alias -Name gbr -Value { git branch }
-Set-Alias -Name gcm -Value { git commit -m }
-Set-Alias -Name gca -Value { git commit --amend --no-edit }
-Set-Alias -Name gp -Value { git push }
-Set-Alias -Name gl -Value { git pull --rebase }
-Set-Alias -Name gd -Value { git diff }
-Set-Alias -Name gds -Value { git diff --staged }
-Set-Alias -Name ga -Value { git add }
-Set-Alias -Name gaa -Value { git add --all }
-Set-Alias -Name grs -Value { git restore --staged }
-Set-Alias -Name gr -Value { git restore }
-
-# Utility aliases
-Set-Alias -Name grep -Value { rg --color always }
+function gst { git status -sb }
+function gco { git checkout $args }
+function gbr { git branch $args }
+function gcm { git commit -m $args }
+function gca { git commit --amend --no-edit }
+function gp { git push $args }
+function gl { git pull --rebase $args }
+function gd { git diff $args }
+function gds { git diff --staged $args }
+function ga { git add $args }
+function gaa { git add --all }
+function grs { git restore --staged $args }
+function gr { git restore $args }# Utility aliases
+# Utility aliases (assuming rg, fd, bat, and btop are installed)
+function grep { rg $args --color always } # Kept as function
 Set-Alias -Name find -Value fd
 Set-Alias -Name cat -Value bat
-Set-Alias -Name top -Value btop
-Set-Alias -ame ps -Value { Get-Process }
-
-# ================
+function ps { Get-Process $args } # Converted to function for argument passing# ================
 #  Functions
 # ================
 

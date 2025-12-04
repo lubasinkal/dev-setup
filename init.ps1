@@ -265,28 +265,6 @@ function Setup-PowerShellProfile {
 }
 
 # -------------------------------
-# Function: Setup Environment Variables
-# -------------------------------
-function Setup-EnvironmentVariables {
-    try {
-        $envTemplate = Join-Path $PSScriptRoot ".env.template"
-        $envFile = Join-Path $PSScriptRoot ".env"
-
-        if ((Test-Path $envTemplate) -and (-not (Test-Path $envFile))) {
-            Copy-Item $envTemplate $envFile
-            Write-Host "[OK] Environment template copied to: $envFile"
-            Write-Host "[WARNING] Please customize the .env file with your actual values" -ForegroundColor Yellow
-        } elseif (Test-Path $envFile) {
-            Write-Host "[INFO] Environment file already exists: $envFile"
-        }
-    }
-    catch {
-        Write-Host "[ERROR] Failed to setup environment variables: $($_.Exception.Message)" -ForegroundColor Red
-        throw
-    }
-}
-
-# -------------------------------
 # Function: Setup Development Directories
 # -------------------------------
 function Setup-DevDirectories {
