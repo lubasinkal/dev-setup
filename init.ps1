@@ -8,29 +8,29 @@ function Backup-ConfigFiles {
     try {
         $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
         $backupDir = Join-Path $env:USERPROFILE "config-backups-$timestamp"
-        
+
         Write-Host "Creating backup directory: $backupDir"
         New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
-        
+
         $configsToBackup = @(
             @{ Source = "$env:USERPROFILE\.wezterm.lua"; Dest = Join-Path $backupDir ".wezterm.lua" },
             @{ Source = "$env:USERPROFILE\.config\starship\starship.toml"; Dest = Join-Path $backupDir "starship.toml" },
             @{ Source = "$env:USERPROFILE\.gitconfig"; Dest = Join-Path $backupDir ".gitconfig" },
             @{ Source = "$env:USERPROFILE\.bashrc"; Dest = Join-Path $backupDir ".bashrc" }
         )
-        
+
         foreach ($config in $configsToBackup) {
             if (Test-Path $config.Source) {
                 Copy-Item $config.Source $config.Dest -Force
-                Write-Host "✅ Backed up: $($config.Source)"
+                Write-Host "[OK] Backed up: $($config.Source)"
             }
         }
-        
-        Write-Host "✅ Config files backed up to: $backupDir"
+
+        Write-Host "[OK] Config files backed up to: $backupDir"
         return $backupDir
     }
     catch {
-        Write-Host "❌ Failed to backup config files: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to backup config files: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -42,7 +42,7 @@ function Copy-ConfigFiles {
     try {
         $repoRoot = $PSScriptRoot
         $configSourceDir = Join-Path $repoRoot "configs"
-        
+
         # Validate source directory exists
         if (-not (Test-Path $configSourceDir)) {
             throw "Config source directory not found: $configSourceDir"
@@ -61,9 +61,9 @@ function Copy-ConfigFiles {
                 New-Item -ItemType Directory -Path $targetWeztermDir -Force | Out-Null
             }
             Copy-Item $sourceWezterm -Destination $targetWezterm -Force -ErrorAction Stop
-            Write-Host "✅ WezTerm config copied to $targetWezterm"
+            Write-Host "[OK] WezTerm config copied to $targetWezterm"
         } else {
-            Write-Host "❌ WezTerm config not found in $sourceWezterm" -ForegroundColor Yellow
+            Write-Host "[WARNING] WezTerm config not found in $sourceWezterm" -ForegroundColor Yellow
         }
 
 # Starship
@@ -76,11 +76,11 @@ function Copy-ConfigFiles {
                 New-Item -ItemType Directory -Path $targetStarshipDir -Force | Out-Null
             }
             Copy-Item $sourceStarship -Destination $targetStarship -Force -ErrorAction Stop
-            Write-Host "✅ Starship config copied to $targetStarship"
+            Write-Host "[OK] Starship config copied to $targetStarship"
         } else {
-            Write-Host "❌ Starship config not found in $sourceStarship" -ForegroundColor Yellow
+            Write-Host "[WARNING] Starship config not found in $sourceStarship" -ForegroundColor Yellow
         }
-    
+
         # gitconfig
         $sourcegitconfig = Join-Path $configSourceDir ".gitconfig"
         $targetgitconfigDir = "$env:USERPROFILE"
@@ -91,9 +91,9 @@ function Copy-ConfigFiles {
                 New-Item -ItemType Directory -Path $targetgitconfigDir -Force | Out-Null
             }
             Copy-Item $sourcegitconfig -Destination $targetgitconfig -Force -ErrorAction Stop
-            Write-Host "✅ gitconfig config copied to $targetgitconfig"
+            Write-Host "[OK] gitconfig config copied to $targetgitconfig"
         } else {
-            Write-Host "❌ gitconfig config not found in $sourcegitconfig" -ForegroundColor Yellow
+            Write-Host "[WARNING] gitconfig config not found in $sourcegitconfig" -ForegroundColor Yellow
         }
 
         # bashrc
@@ -105,15 +105,15 @@ function Copy-ConfigFiles {
                 New-Item -ItemType Directory -Path $targetbashrcDir -Force | Out-Null
             }
             Copy-Item $sourcebashrc -Destination $targetbashrc -Force -ErrorAction Stop
-            Write-Host "✅ bashrc config copied to $targetbashrc"
+            Write-Host "[OK] bashrc config copied to $targetbashrc"
         } else {
-            Write-Host "❌ bashrc config not found in $sourcebashrc" -ForegroundColor Yellow
+            Write-Host "[WARNING] bashrc config not found in $sourcebashrc" -ForegroundColor Yellow
         }
-        
-        Write-Host "✅ Configuration files copied successfully"
+
+        Write-Host "[OK] Configuration files copied successfully"
     }
     catch {
-        Write-Host "❌ Failed to copy config files: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to copy config files: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -131,13 +131,13 @@ function Install-Scoop {
                 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
             }
             Invoke-RestMethod get.scoop.sh | Invoke-Expression
-            Write-Host "✅ Scoop installed successfully"
+            Write-Host "[OK] Scoop installed successfully"
         } else {
-            Write-Host "✅ Scoop already installed"
+            Write-Host "[OK] Scoop already installed"
         }
     }
     catch {
-        Write-Host "❌ Failed to install Scoop: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to install Scoop: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -149,7 +149,7 @@ function Install-ScoopApps {
     try {
         Write-Host "Updating Scoop..."
         scoop update
-        
+
         Write-Host "Installing Scoop packages..."
         scoop install `
         7zip `
@@ -157,7 +157,7 @@ function Install-ScoopApps {
         aria2 `
         bat `
         delta `
-        eza `
+        exa `
         fd `
         python `
         fzf `
@@ -181,11 +181,11 @@ rustup `
         fnm `
 uv `
         nodejs
-        
-        Write-Host "✅ All Scoop packages installed successfully"
+
+        Write-Host "[OK] All Scoop packages installed successfully"
     }
     catch {
-        Write-Host "❌ Failed to install Scoop packages: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to install Scoop packages: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -203,15 +203,15 @@ function Install-WingetApps {
             Write-Host "Installing $pkg via winget..."
             $result = winget install --id=$pkg --accept-package-agreements --accept-source-agreements --silent
             if ($LASTEXITCODE -ne 0) {
-                Write-Host "⚠️ Failed to install $pkg (exit code: $LASTEXITCODE)" -ForegroundColor Yellow
+                Write-Host "[WARNING] Failed to install $pkg (exit code: $LASTEXITCODE)" -ForegroundColor Yellow
             } else {
-                Write-Host "✅ Successfully installed $pkg"
+                Write-Host "[OK] Successfully installed $pkg"
             }
         }
-        Write-Host "✅ Winget package installation completed"
+        Write-Host "[OK] Winget package installation completed"
     }
     catch {
-        Write-Host "❌ Failed to install Winget packages: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to install Winget packages: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -226,11 +226,11 @@ function Clone-NeovimConfig {
     if (Test-Path $configPath) {
         $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
         $backupPath = "$env:LOCALAPPDATA\nvim.bak-$timestamp"
-        Write-Host "⚠️ Neovim config exists. Backing up to $backupPath..."
+        Write-Host "[WARNING] Neovim config exists. Backing up to $backupPath..."
         Rename-Item -Path $configPath -NewName ("nvim.bak-" + $timestamp)
     }
 
-    Write-Host "📥 Cloning latest Neovim config from GitHub..."
+    Write-Host "[INFO] Cloning latest Neovim config from GitHub..."
     git clone https://github.com/lubasinkal/nvim $configPath
 }
 
@@ -241,25 +241,25 @@ function Setup-PowerShellProfile {
     try {
         $profilePath = $PROFILE.CurrentUserAllHosts
         $sourceProfile = Join-Path $PSScriptRoot "configs\Microsoft.PowerShell_profile.ps1"
-        
+
         if (Test-Path $sourceProfile) {
             # Backup existing profile
             if (Test-Path $profilePath) {
                 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
                 $backupPath = "$profilePath.bak-$timestamp"
                 Copy-Item $profilePath $backupPath
-                Write-Host "✅ Existing PowerShell profile backed up to: $backupPath"
+                Write-Host "[OK] Existing PowerShell profile backed up to: $backupPath"
             }
-            
+
             # Copy new profile
             Copy-Item $sourceProfile $profilePath -Force
-            Write-Host "✅ PowerShell profile installed to: $profilePath"
+            Write-Host "[OK] PowerShell profile installed to: $profilePath"
         } else {
-            Write-Host "❌ PowerShell profile source not found: $sourceProfile" -ForegroundColor Yellow
+            Write-Host "[WARNING] PowerShell profile source not found: $sourceProfile" -ForegroundColor Yellow
         }
     }
     catch {
-        Write-Host "❌ Failed to setup PowerShell profile: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to setup PowerShell profile: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -271,17 +271,17 @@ function Setup-EnvironmentVariables {
     try {
         $envTemplate = Join-Path $PSScriptRoot ".env.template"
         $envFile = Join-Path $PSScriptRoot ".env"
-        
+
         if ((Test-Path $envTemplate) -and (-not (Test-Path $envFile))) {
             Copy-Item $envTemplate $envFile
-            Write-Host "✅ Environment template copied to: $envFile"
-            Write-Host "⚠️ Please customize the .env file with your actual values" -ForegroundColor Yellow
+            Write-Host "[OK] Environment template copied to: $envFile"
+            Write-Host "[WARNING] Please customize the .env file with your actual values" -ForegroundColor Yellow
         } elseif (Test-Path $envFile) {
-            Write-Host "ℹ️ Environment file already exists: $envFile"
+            Write-Host "[INFO] Environment file already exists: $envFile"
         }
     }
     catch {
-        Write-Host "❌ Failed to setup environment variables: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to setup environment variables: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -300,19 +300,19 @@ function Setup-DevDirectories {
             "$env:USERPROFILE\dev\tutorials",
             "$env:USERPROFILE\dev\archives"
         )
-        
+
         foreach ($dir in $devDirs) {
             if (-not (Test-Path $dir)) {
                 New-Item -ItemType Directory -Path $dir -ErrorAction Stop | Out-Null
-                Write-Host "✅ Created directory: $dir"
+                Write-Host "[OK] Created directory: $dir"
             } else {
-                Write-Host "ℹ️ Directory already exists: $dir"
+                Write-Host "[INFO] Directory already exists: $dir"
             }
         }
-        Write-Host "✅ Development directories setup completed"
+        Write-Host "[OK] Development directories setup completed"
     }
     catch {
-        Write-Host "❌ Failed to setup development directories: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[ERROR] Failed to setup development directories: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -323,15 +323,15 @@ function Setup-DevDirectories {
 function Configure-Git {
     $gitUser = git config --global user.name 2>$null
     $gitEmail = git config --global user.email 2>$null
-    
+
     if (-not $gitUser -or -not $gitEmail) {
-        Write-Host "⚠️ Git not configured. Please run the following commands manually:"
+        Write-Host "[WARNING] Git not configured. Please run the following commands manually:"
         Write-Host "   git config --global user.name `"Your Name`""
         Write-Host "   git config --global user.email `"your.email@example.com`""
     } else {
-        Write-Host "✅ Git already configured for $gitUser ($gitEmail)"
+        Write-Host "[OK] Git already configured for $gitUser ($gitEmail)"
     }
-    
+
     git config --global init.defaultBranch main 2>$null
     git config --global pull.rebase false 2>$null
     git config --global core.autocrlf true 2>$null
@@ -360,7 +360,7 @@ function Start-DevSetup {
     Write-Host "3. Customize your .env file with actual values"
     Write-Host "4. Run 'fastfetch' to test your setup"
     Write-Host "5. Try commands: 'sysinfo', 'dev', 'proj <name>', 'y'"
-    Write-Host "6. Enjoy your new development environment! 🎉"
+    Write-Host "6. Enjoy your new development environment!"
 }
 
 # ------------------------

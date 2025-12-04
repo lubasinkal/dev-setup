@@ -48,11 +48,11 @@ gds          # git diff --staged
 
 ### Navigation & File Management
 ```powershell
-# Enhanced ls with eza
-ll           # eza -alF --icons
-la           # eza -A --icons
-lt           # eza -T (tree view)
-lg           # eza --git
+# Enhanced ls with exa
+ll           # exa -alF --icons
+la           # exa -A --icons
+lt           # exa -T (tree view)
+lg           # exa --git
 
 # Directory navigation
 dev <dir>    # Navigate to dev directories

@@ -14,7 +14,7 @@ A comprehensive, automated development environment setup for Windows developers.
 
 ### Development Tools
 - **Languages**: Python, Node.js (via fnm), Go, Rust, Zig
-- **File Management**: eza (ls replacement), fd (find replacement), yazi (file manager)
+- **File Management**: exa (ls replacement), fd (find replacement), yazi (file manager)
 - **Search**: ripgrep (rg) for fast text search
 - **Git Tools**: lazygit for enhanced git workflow
 - **Navigation**: zoxide for smart directory navigation
@@ -83,7 +83,7 @@ dev-setup/
 - **Terminal**: WezTerm, PowerShell, Nushell
 
 ### Productivity Tools
-- **File Utils**: eza, fd, yazi, bat, delta
+- **File Utils**: exa, fd, yazi, bat, delta
 - **Search**: ripgrep, fzf
 - **Git**: lazygit
 - **Navigation**: zoxide
