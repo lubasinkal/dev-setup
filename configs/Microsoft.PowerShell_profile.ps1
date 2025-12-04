@@ -55,12 +55,12 @@ foreach ($path in $pathsToAdd) {
 #  Aliases
 # ================
 # Enhanced ls replacements
-Set-Alias -Name ls -Value { exa --icons }
-Set-Alias -Name ll -Value { exa -a -l -F --icons --group-directories-first --header }
-Set-Alias -Name la -Value { exa -A --icons --group-directories-first --header }
-Set-Alias -Name l -Value { exa -F --icons --group-directories-first --header }
-Set-Alias -Name lt -Value { exa -T --icons --group-directories-first --header }
-Set-Alias -Name lg -Value { exa --git --icons --group-directories-first --header }
+Set-Alias -Name ls -Value { eza --icons }
+Set-Alias -Name ll -Value { eza -a -l -F --icons --group-directories-first --header }
+Set-Alias -Name la -Value { eza -A --icons --group-directories-first --header }
+Set-Alias -Name l -Value { eza -F --icons --group-directories-first --header }
+Set-Alias -Name lt -Value { eza -T --icons --group-directories-first --header }
+Set-Alias -Name lg -Value { eza --git --icons --group-directories-first --header }
 
 # Development aliases
 Set-Alias -Name c -Value clear

@@ -14,7 +14,7 @@ A comprehensive, automated development environment setup for Windows developers.
 
 ### Development Tools
 - **Languages**: Python, Node.js (via fnm), Go, Rust, Zig
-- **File Management**: exa (ls replacement), fd (find replacement), yazi (file manager)
+- **File Management**: eza (ls replacement), fd (find replacement), yazi (file manager)
 - **Search**: ripgrep (rg) for fast text search
 - **Git Tools**: lazygit for enhanced git workflow
 - **Navigation**: zoxide for smart directory navigation
@@ -83,7 +83,7 @@ dev-setup/
 - **Terminal**: WezTerm, PowerShell, Nushell
 
 ### Productivity Tools
-- **File Utils**: exa, fd, yazi, bat, delta
+- **File Utils**: eza, fd, yazi, bat, delta
 - **Search**: ripgrep, fzf
 - **Git**: lazygit
 - **Navigation**: zoxide
@@ -242,7 +242,7 @@ Invoke-RestMethod get.scoop.sh | Invoke-Expression
 ```powershell
 # Set your git identity
 git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
+git config --global user.email "your.email@ezample.com"
 ```
 
 #### Path Issues

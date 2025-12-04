@@ -157,7 +157,7 @@ function Install-ScoopApps {
         aria2 `
         bat `
         delta `
-        exa `
+        eza `
         fd `
         python `
         fzf `
@@ -327,7 +327,7 @@ function Configure-Git {
     if (-not $gitUser -or -not $gitEmail) {
         Write-Host "[WARNING] Git not configured. Please run the following commands manually:"
         Write-Host "   git config --global user.name `"Your Name`""
-        Write-Host "   git config --global user.email `"your.email@example.com`""
+        Write-Host "   git config --global user.email `"your.email@ezample.com`""
     } else {
         Write-Host "[OK] Git already configured for $gitUser ($gitEmail)"
     }
