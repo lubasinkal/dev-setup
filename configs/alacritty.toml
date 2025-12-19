@@ -1,0 +1,175 @@
+[general]
+live_config_reload = true
+working_directory = "C:/Users/Nkalolang"
+
+[window]
+# decorations = "None"
+opacity = 0.8
+startup_mode = "Maximized"
+title = "Alacritty"
+decorations = "None"
+dynamic_title = false
+resize_increments = false
+decorations_theme_variant = "Dark"
+
+[scrolling]
+history = 50000
+multiplier = 5
+
+[font]
+size = 12.0
+normal = { family = "SpaceMono Nerd Font", style = "Regular" }
+bold = { style = "Bold" }
+italic = { style = "Italic" }
+bold_italic = { style = "Bold Italic" }
+offset = { x = 0, y = 0 }
+builtin_box_drawing = true
+
+[colors]
+# Black UI Theme
+[colors.primary]
+foreground = "#ffffff"
+background = "#000000"
+dim_foreground = "#666666"
+bright_foreground = "#ffffff"
+
+[colors.cursor]
+text = "#000000"
+cursor = "#ffffff"
+
+[colors.vi_mode_cursor]
+text = "#000000"
+cursor = "#ffffff"
+
+[colors.search]
+matches = { foreground = "#000000", background = "#ffff00" }
+focused_match = { foreground = "#000000", background = "#ff6600" }
+
+[colors.hints]
+start = { foreground = "#000000", background = "#ff6600" }
+end = { foreground = "#000000", background = "#ffff00" }
+
+[colors.line_indicator]
+foreground = "None"
+background = "None"
+
+[colors.footer_bar]
+foreground = "#000000"
+background = "#cccccc"
+
+[colors.selection]
+text = "#000000"
+background = "#ffffff"
+
+# Normal colors - Classic black/white terminal palette
+[colors.normal]
+black = "#000000"
+red = "#cc0000"
+green = "#4e9a06"
+yellow = "#c4a000"
+blue = "#3465a4"
+magenta = "#75507b"
+cyan = "#06989a"
+white = "#d3d7cf"
+
+# Bright colors
+[colors.bright]
+black = "#555753"
+red = "#ef2929"
+green = "#8ae234"
+yellow = "#fce94f"
+blue = "#729fcf"
+magenta = "#ad7fa8"
+cyan = "#34e2e2"
+white = "#ffffff"
+
+
+[bell]
+animation = "EaseOutExpo"
+duration = 200
+color = "#ffffff"
+
+[selection]
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+save_to_clipboard = true
+
+[cursor]
+style = { shape = "Block", blinking = "Off" }
+vi_mode_style = { shape = "Block", blinking = "Off" }
+blink_interval = 750
+blink_timeout = 5
+unfocused_hollow = true
+thickness = 0.15
+
+[terminal]
+shell = { program = "C:\\Program Files\\Git\\bin\\bash.exe", args = ["--login", "-i"] }
+osc52 = "OnlyCopy"
+
+[mouse]
+hide_when_typing = false
+bindings = [
+  { mouse = "Right", mods = "Control", action = "Paste" },
+  { mouse = "Left", mods = "Control|Shift", action = "Open" }
+]
+
+[hints]
+alphabet = "jfkdls;ahgurieowpq"
+
+[[hints.enabled]]
+command = "xdg-open"
+hyperlinks = true
+post_processing = true
+persist = false
+mouse = { enabled = true }
+binding = { key = "O", mods = "Control|Shift" }
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\\u0000-\\u001F\\u007F-\\u009F<>\"\\s{-}\\^⟨⟩`]+"
+
+[keyboard]
+# Standard keybindings (similar to most terminals)
+bindings = [
+  # Copy/Paste (Windows standard)
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+
+  # Font size controls (standard)
+  { key = "Plus", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Equals", mods = "Control", action = "IncreaseFontSize" },
+  { key = "Minus", mods = "Control", action = "DecreaseFontSize" },
+  { key = "0", mods = "Control", action = "ResetFontSize" },
+
+  # Navigation (enhanced)
+  { key = "PageUp", mods = "Shift", action = "ScrollPageUp" },
+  { key = "PageDown", mods = "Shift", action = "ScrollPageDown" },
+  { key = "Home", mods = "Shift", action = "ScrollToTop" },
+  { key = "End", mods = "Shift", action = "ScrollToBottom" },
+  { key = "PageUp", mods = "None", action = "ScrollPageUp" },
+  { key = "PageDown", mods = "None", action = "ScrollPageDown" },
+  
+  # Window management (standard)
+  { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+  { key = "W", mods = "Control|Shift", action = "Quit" },
+  { key = "F11", action = "ToggleFullscreen" },
+  { key = "T", mods = "Control|Shift", action = "CreateNewTab"},
+  # Search (standard)
+  { key = "F", mods = "Control", action = "SearchForward" },
+  { key = "B", mods = "Control|Shift", action = "SearchBackward" },
+
+  # Clear screen (standard Unix-like)
+  { key = "L", mods = "Control", action = "ClearLogNotice" },
+  { key = "K", mods = "Control", action = "ClearHistory" },
+
+  # Vi mode toggle (optional, can be removed if not using vi mode)
+  { key = "Space", mods = "Control|Shift", action = "ToggleViMode" },
+
+  # Tab navigation (if using tabs)
+  { key = "Tab", mods = "Control", action = "SelectNextTab" },
+  { key = "Tab", mods = "Control|Shift", action = "SelectPreviousTab" },
+]
+
+[debug]
+render_timer = false
+persistent_logging = false
+log_level = "Warn"
+print_events = false
+highlight_damage = false
+prefer_egl = false

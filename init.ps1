@@ -65,6 +65,21 @@ function Copy-ConfigFiles {
         } else {
             Write-Host "[WARNING] WezTerm config not found in $sourceWezterm" -ForegroundColor Yellow
         }
+        
+        # Alacritty
+        $sourceAlacritty = Join-Path $configSourceDir ".alacritty.toml"
+        $targetAlacrittyDir = "$env:APPDATA\Alacritty"
+        $targetAlacritty = Join-Path $targetAlacrittyDir "alacritty.toml"
+
+        if (Test-Path $sourceAlacritty) {
+            if (-Not (Test-Path $targetAlacrittyDir)) {
+                New-Item -ItemType Directory -Path $targetAlacrittyDir -Force | Out-Null
+            }
+            Copy-Item $sourceAlacritty -Destination $targetAlacritty -Force -ErrorAction Stop
+            Write-Host "[OK] Alacritty config copied to $targetAlacritty"
+        } else {
+            Write-Host "[WARNING] Alacritty config not found in $sourceAlacritty" -ForegroundColor Yellow
+        }
 
 # Starship
         $sourceStarship = Join-Path $configSourceDir "starship.toml"
@@ -196,7 +211,8 @@ function Install-WingetApps {
     try {
         $wingetPackages = @(
             "HTTPie.HTTPie",
-            "Git.Git"
+            "Git.Git",
+            "Alacritty.Alacritty"
         )
 
         foreach ($pkg in $wingetPackages) {
