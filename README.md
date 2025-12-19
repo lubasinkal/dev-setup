@@ -49,45 +49,39 @@ cd dev-setup
 ### 3. Restart Your Terminal
 Close and reopen your terminal to load the new configuration.
 
-### 4. Customize Your Environment
-Edit the `.env` file with your personal settings:
-```powershell
-code .env
-```
+
 
 ## 📁 Repository Structure
 
 ```
 dev-setup/
 ├── init.ps1                    # Main setup script
-├── packages.txt                # Winget package list
-├── .env.template              # Environment variables template
-├── CRUSH.md                   # Development commands and standards
 ├── README.md                  # This file
 └── configs/
-    ├── .gitconfig             # Git configuration
-    ├── .gitconfig.template    # Git config template
-    ├── .wezterm.lua           # WezTerm configuration
-    ├── starship.toml          # Starship prompt config
-    ├── .bashrc                # Bash configuration
-    └── Microsoft.PowerShell_profile.ps1  # PowerShell profile
+     ├── .gitconfig             # Git configuration
+     ├── .wezterm.lua           # WezTerm configuration
+     ├── starship.toml          # Starship prompt config
+     ├── .bashrc                # Bash configuration
+     ├── alacritty.toml         # Alacritty configuration
+     └── Microsoft.PowerShell_profile.ps1  # PowerShell profile
 ```
 
 ## ⚙️ What Gets Installed
 
 ### Development Tools
 - **Core**: Git, GitHub CLI, Make, Unzip, 7zip
-- **Editors**: Neovim, VS Code
+- **Editors**: Neovim, Zed
 - **Languages**: Python, Node.js, Go, Rust, Zig
 - **Package Managers**: Scoop, fnm (Node.js), pnpm, uv (Python)
-- **Terminal**: WezTerm, PowerShell, Nushell
+- **Terminal**: WezTerm, Alacritty, PowerShell, Nushell
 
 ### Productivity Tools
-- **File Utils**: eza, fd, yazi, bat, delta
+- **File Utils**: eza, fd, yazi, bat, delta, imagemagick
 - **Search**: ripgrep, fzf
 - **Git**: lazygit
 - **Navigation**: zoxide
 - **System**: fastfetch, neofetch
+- **Other**: aria2, ani-cli
 
 ### Development Environment
 - **Directories**: Structured dev directories (personal, work, open-source, etc.)
@@ -108,6 +102,11 @@ dev-setup/
 - Optimized color scheme and appearance
 - Multiple shell options (PowerShell, Bash, Nushell)
 - Productivity-focused layout
+
+### Alacritty Configuration
+- Modern terminal emulator
+- Custom color scheme and appearance
+- Optimized for development workflow
 
 ### Git Configuration
 - Enhanced aliases for common git operations
@@ -184,12 +183,7 @@ Add to `configs/Microsoft.PowerShell_profile.ps1`:
 Set-Alias -Name myalias -Value { your-command }
 ```
 
-### Environment Variables
-Edit `.env` file with your specific values:
-```bash
-MY_CUSTOM_VAR=some_value
-API_KEY=your_api_key_here
-```
+
 
 ## 🔄 Maintenance
 
@@ -252,27 +246,12 @@ Restart your terminal or run:
 ```
 
 ### Getting Help
-- Check the [CRUSH.md](CRUSH.md) for detailed commands
 - Review individual config files in `configs/`
 - Check package documentation for specific tools
 
-## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
 
-### Development Guidelines
-- Follow the code style in [CRUSH.md](CRUSH.md)
-- Test changes on a fresh Windows installation
-- Update documentation for any new features
-- Maintain backward compatibility when possible
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -286,7 +265,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you encounter issues or have questions:
 1. Check the troubleshooting section above
-2. Review the [CRUSH.md](CRUSH.md) for command reference
+2. Review individual config files in `configs/`
 3. Open an issue on GitHub with detailed information
 4. Include your Windows version and PowerShell version in bug reports
 

@@ -67,7 +67,7 @@ function Copy-ConfigFiles {
         }
         
         # Alacritty
-        $sourceAlacritty = Join-Path $configSourceDir ".alacritty.toml"
+        $sourceAlacritty = Join-Path $configSourceDir "alacritty.toml"
         $targetAlacrittyDir = "$env:APPDATA\Alacritty"
         $targetAlacritty = Join-Path $targetAlacrittyDir "alacritty.toml"
 
@@ -212,7 +212,8 @@ function Install-WingetApps {
         $wingetPackages = @(
             "HTTPie.HTTPie",
             "Git.Git",
-            "Alacritty.Alacritty"
+            "Alacritty.Alacritty",
+            "ZedIndustries.Zed"
         )
 
         foreach ($pkg in $wingetPackages) {
