@@ -1,6 +1,5 @@
 [general]
 live_config_reload = true
-working_directory = "C:/Users/Nkalolang"
 
 [window]
 # decorations = "None"
