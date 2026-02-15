@@ -62,7 +62,8 @@ function Copy-ConfigFiles {
             }
             Copy-Item $sourceWezterm -Destination $targetWezterm -Force -ErrorAction Stop
             Write-Host "[OK] WezTerm config copied to $targetWezterm"
-        } else {
+        }
+        else {
             Write-Host "[WARNING] WezTerm config not found in $sourceWezterm" -ForegroundColor Yellow
         }
         
@@ -77,11 +78,12 @@ function Copy-ConfigFiles {
             }
             Copy-Item $sourceAlacritty -Destination $targetAlacritty -Force -ErrorAction Stop
             Write-Host "[OK] Alacritty config copied to $targetAlacritty"
-        } else {
+        }
+        else {
             Write-Host "[WARNING] Alacritty config not found in $sourceAlacritty" -ForegroundColor Yellow
         }
 
-# Starship
+        # Starship
         $sourceStarship = Join-Path $configSourceDir "starship.toml"
         $targetStarshipDir = "$env:USERPROFILE\.config\starship"
         $targetStarship = Join-Path $targetStarshipDir "starship.toml"
@@ -92,7 +94,8 @@ function Copy-ConfigFiles {
             }
             Copy-Item $sourceStarship -Destination $targetStarship -Force -ErrorAction Stop
             Write-Host "[OK] Starship config copied to $targetStarship"
-        } else {
+        }
+        else {
             Write-Host "[WARNING] Starship config not found in $sourceStarship" -ForegroundColor Yellow
         }
 
@@ -107,7 +110,8 @@ function Copy-ConfigFiles {
             }
             Copy-Item $sourcegitconfig -Destination $targetgitconfig -Force -ErrorAction Stop
             Write-Host "[OK] gitconfig config copied to $targetgitconfig"
-        } else {
+        }
+        else {
             Write-Host "[WARNING] gitconfig config not found in $sourcegitconfig" -ForegroundColor Yellow
         }
 
@@ -121,7 +125,8 @@ function Copy-ConfigFiles {
             }
             Copy-Item $sourcebashrc -Destination $targetbashrc -Force -ErrorAction Stop
             Write-Host "[OK] bashrc config copied to $targetbashrc"
-        } else {
+        }
+        else {
             Write-Host "[WARNING] bashrc config not found in $sourcebashrc" -ForegroundColor Yellow
         }
 
@@ -147,12 +152,39 @@ function Install-Scoop {
             }
             Invoke-RestMethod get.scoop.sh | Invoke-Expression
             Write-Host "[OK] Scoop installed successfully"
-        } else {
+        }
+        else {
             Write-Host "[OK] Scoop already installed"
         }
     }
     catch {
         Write-Host "[ERROR] Failed to install Scoop: $($_.Exception.Message)" -ForegroundColor Red
+        throw
+    }
+}
+
+# -----------------------------
+# Function: Setup Scoop Buckets
+# -----------------------------
+function Setup-ScoopBuckets {
+    try {
+        Write-Host "Checking Scoop buckets..."
+        $currentBuckets = scoop bucket list
+        
+        $requiredBuckets = @("extras") # Add "versions" or "nerd-fonts" here if needed later
+
+        foreach ($bucket in $requiredBuckets) {
+            if ($currentBuckets -notmatch $bucket) {
+                Write-Host "Adding $bucket bucket..."
+                scoop bucket add $bucket
+            }
+            else {
+                Write-Host "[OK] $bucket bucket already added"
+            }
+        }
+    }
+    catch {
+        Write-Host "[ERROR] Failed to setup Scoop buckets: $($_.Exception.Message)" -ForegroundColor Red
         throw
     }
 }
@@ -167,35 +199,35 @@ function Install-ScoopApps {
 
         Write-Host "Installing Scoop packages..."
         scoop install `
-        7zip `
-        ani-cli `
-        aria2 `
-        bat `
-        delta `
-        eza `
-        fd `
-        python `
-        fzf `
-        lazygit `
-        pnpm `
-        ripgrep `
-        yazi `
-        zig `
-        zoxide `
-        imagemagick `
-        neofetch `
-        neovim `
-        gh `
-        wezterm `
-        go `
-rustup `
-        starship `
-        make `
-        unzip `
-        fastfetch `
-        fnm `
-uv `
-        nodejs
+            7zip `
+            ani-cli `
+            aria2 `
+            bat `
+            delta `
+            eza `
+            fd `
+            python `
+            fzf `
+            lazygit `
+            pnpm `
+            ripgrep `
+            yazi `
+            zig `
+            zoxide `
+            imagemagick `
+            neofetch `
+            neovim `
+            gh `
+            wezterm `
+            go `
+            rustup `
+            starship `
+            make `
+            unzip `
+            fastfetch `
+            fnm `
+            uv `
+            nodejs
 
         Write-Host "[OK] All Scoop packages installed successfully"
     }
@@ -220,7 +252,8 @@ function Install-WingetApps {
             $result = winget install --id=$pkg --accept-package-agreements --accept-source-agreements --silent
             if ($LASTEXITCODE -ne 0) {
                 Write-Host "[WARNING] Failed to install $pkg (exit code: $LASTEXITCODE)" -ForegroundColor Yellow
-            } else {
+            }
+            else {
                 Write-Host "[OK] Successfully installed $pkg"
             }
         }
@@ -270,7 +303,8 @@ function Setup-PowerShellProfile {
             # Copy new profile
             Copy-Item $sourceProfile $profilePath -Force
             Write-Host "[OK] PowerShell profile installed to: $profilePath"
-        } else {
+        }
+        else {
             Write-Host "[WARNING] PowerShell profile source not found: $sourceProfile" -ForegroundColor Yellow
         }
     }
@@ -299,7 +333,8 @@ function Setup-DevDirectories {
             if (-not (Test-Path $dir)) {
                 New-Item -ItemType Directory -Path $dir -ErrorAction Stop | Out-Null
                 Write-Host "[OK] Created directory: $dir"
-            } else {
+            }
+            else {
                 Write-Host "[INFO] Directory already exists: $dir"
             }
         }
@@ -322,7 +357,8 @@ function Configure-Git {
         Write-Host "[WARNING] Git not configured. Please run the following commands manually:"
         Write-Host "   git config --global user.name `"Your Name`""
         Write-Host "   git config --global user.email `"your.email@ezample.com`""
-    } else {
+    }
+    else {
         Write-Host "[OK] Git already configured for $gitUser ($gitEmail)"
     }
 
@@ -337,7 +373,8 @@ function Configure-Git {
 function Start-DevSetup {
     Write-Host "`n==> Running development environment setup..." -ForegroundColor Cyan
 
-    Install-Scoop
+    Install-Scoops
+    Setup-ScoopBuckets
     Install-ScoopApps
     Install-WingetApps
     Setup-DevDirectories
