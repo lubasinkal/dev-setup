@@ -1,29 +1,3 @@
-# ~/.gitconfig - Enhanced Git Configuration
-
-# ================
-#  User Identity
-# ================
-[user]
-    # TODO: Replace with your actual name and email
-    # Run: git config --global user.name "Your Name"
-    # Run: git config --global user.email "your.email@example.com"
-    name = lubasinkal
-    email = lubasinkal@outlook.com
-    # Sign commits with GPG (uncomment if you have a GPG key)
-    # signingKey = YOUR_KEY_ID
-
-# ================
-#  Core Settings
-# ================
-[core]
-    editor = code --wait
-    pager = delta
-    autocrlf = true
-    sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
-    fsmonitor = true
-    # Exclude patterns (like .DS_Store)
-    excludesfile = ~/.gitignore_global
-
 # ================
 #  UI Enhancements
 # ================
@@ -59,14 +33,6 @@
 [push]
     autoSetupRemote = true
     default = current  # Push current branch by default
-
-[merge]
-    conflictstyle = zdiff3
-    tool = vscode
-    stat = true
-
-[mergetool "vscode"]
-    cmd = code --wait $MERGED
 
 [rebase]
     autoStash = true  # Automatically stash changes before rebasing
@@ -130,7 +96,7 @@
     # For Linux/Mac:
     # helper = cache --timeout=3600
     # For Windows:
-    helper = wincred
+    # helper = wincred
 
 # ================
 #  Miscellaneous
@@ -165,5 +131,3 @@
 
 [blame]
     date = short
-[credential "helperselector"]
-	selected = wincred
